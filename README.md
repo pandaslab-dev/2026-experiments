@@ -8,7 +8,7 @@ some of it is tiny/messy and some of it might turn into a real project later - m
 - `esp32-rage-machine` - an esp32 ble midi controller experiment
 - `pandadraw` - a tiny tkinter paint app
 - `repo-practice` - a sandbox for repo/git practice
-- `swiftui-learning` - small swiftui exercises and learning projects
+- `swiftui-learning` - completed projects from Apple's 'Develop in Swift' tutorials
 - `swiftui-sampler` - a rough swiftui audio sampler experiment
 
 if one of these grows up later, it can always become its own repo then.
