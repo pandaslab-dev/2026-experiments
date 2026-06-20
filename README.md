@@ -2,7 +2,7 @@
 
 this is where i'm keeping the stuff i'm trying in 2026.
 
-some of it is tiny, some of it is messy, and some of it might turn into a real project later. i mostly wanted one place to keep moving instead of overthinking repo boundaries.
+some of it is tiny/messy and some of it might turn into a real project later - mostly wanted one place to keep moving 
 
 - `Bear Game` - a little godot bear platformer
 - `esp32-rage-machine` - an esp32 ble midi controller experiment
