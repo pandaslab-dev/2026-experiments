@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://btoqcfaae4ns7"]
+
+[ext_resource type="AudioStream" uid="uid://be6xrih225hhe" path="res://assets/music/bear game 1.mp3" id="1_7am4u"]
+
+[node name="music" type="AudioStreamPlayer2D"]
+stream = ExtResource("1_7am4u")
+autoplay = true
+bus = &"music"
