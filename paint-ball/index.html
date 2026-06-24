@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>paint-ball</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="page">
+      <div class="board-wrap">
+        <section class="board" id="board">
+          <img
+            class="board-art"
+            src="board-ui-v1.png"
+            alt="hand-drawn paint-ball scoreboard art"
+          />
+
+          <div class="paint-layer" aria-hidden="true">
+            <div class="shape-fill away team-fill"></div>
+            <div class="shape-fill home team-fill"></div>
+
+            <div class="shape-fill away score-fill"></div>
+            <div class="shape-fill home score-fill"></div>
+
+            <div class="shape-fill away info-fill"></div>
+            <div class="shape-fill home info-fill"></div>
+          </div>
+
+          <div class="board-text">
+            <div class="slot away-team fit-text" id="awayTeam" data-max-size="42">
+              away team
+            </div>
+            <div class="slot home-team fit-text" id="homeTeam" data-max-size="42">
+              home team
+            </div>
+
+            <div class="slot away-score fit-text score-text" id="awayScore" data-max-size="74">
+              one
+            </div>
+            <div class="slot home-score fit-text score-text" id="homeScore" data-max-size="74">
+              one
+            </div>
+
+            <div class="slot status-box fit-text" id="statusText" data-max-size="32">
+              loading
+            </div>
+            <div class="slot clock-box fit-text" id="gameClock" data-max-size="32">
+              hang on
+            </div>
+
+            <div class="slot sport-bar fit-text" id="sportText" data-max-size="34">
+              sport / league
+            </div>
+            <div class="slot time-bar fit-text" id="metaText" data-max-size="30">
+              live / somewhere / 10:09 pm
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
