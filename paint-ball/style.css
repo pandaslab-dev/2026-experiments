@@ -36,7 +36,7 @@ body {
 }
 
 .board-art,
-.paint-layer,
+.scribble-layer,
 .board-text {
   position: absolute;
   inset: 0;
@@ -48,7 +48,7 @@ body {
   display: block;
 }
 
-.paint-layer {
+.scribble-layer {
   pointer-events: none;
 }
 
@@ -56,68 +56,28 @@ body {
   pointer-events: none;
 }
 
-.shape-fill {
+.scribble-side {
   position: absolute;
-  opacity: 0.6;
-  mix-blend-mode: multiply;
-  overflow: hidden;
-}
-
-.shape-fill.away {
+  inset: 0;
+  opacity: 0.68;
   background: var(--away-color);
+  clip-path: inset(0 50% 0 0);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
 }
 
-.shape-fill.home {
+.scribble-side.home {
   background: var(--home-color);
+  clip-path: inset(0 0 0 50%);
 }
 
-.team-fill {
-  top: 22.9%;
-  width: 29.5%;
-  height: 8.1%;
-  border-radius: 999px;
-}
-
-.team-fill.away {
-  left: 14%;
-  transform: rotate(-2deg);
-}
-
-.team-fill.home {
-  right: 14.2%;
-  transform: rotate(2deg);
-}
-
-.score-fill {
-  top: 37.5%;
-  width: 18.4%;
-  height: 16.2%;
-  border-radius: 12px;
-}
-
-.score-fill.away {
-  left: 21.5%;
-  transform: rotate(-1deg);
-}
-
-.score-fill.home {
-  right: 21.8%;
-  transform: rotate(1deg);
-}
-
-.info-fill {
-  top: 68.8%;
-  width: 11.8%;
-  height: 5.9%;
-  border-radius: 10px;
-}
-
-.info-fill.away {
-  left: 31%;
-}
-
-.info-fill.home {
-  right: 33.2%;
+.scribble-base {
+  -webkit-mask-image: url("board-scribbles.png");
+  mask-image: url("board-scribbles.png");
 }
 
 .slot {
