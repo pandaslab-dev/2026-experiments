@@ -68,6 +68,7 @@ const LEAGUES = [
 
 const DEFAULT_COLOR = "#111111";
 const MIN_TEXT_SIZE = 12;
+const RECENT_FINISHED_GAME_LIMIT = 10;
 
 const TIME_ZONES_BY_STATE = {
   al: "America/Chicago",
@@ -284,7 +285,8 @@ function pickDisplayGame(games) {
     .sort((left, right) => new Date(right.date) - new Date(left.date));
 
   if (finishedGames.length) {
-    return finishedGames[0];
+    const recentFinishedGames = finishedGames.slice(0, RECENT_FINISHED_GAME_LIMIT);
+    return recentFinishedGames[Math.floor(Math.random() * recentFinishedGames.length)];
   }
 
   return EMPTY_GAME;
