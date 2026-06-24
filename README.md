@@ -7,6 +7,7 @@ some of it is tiny/messy and some of it might turn into a real project later - m
 - `Bear Game` - a little godot bear platformer
 - `esp32-rage-machine` - an esp32 ble midi controller experiment
 - `pandadraw` - a tiny tkinter paint app
+- `paint-ball` - a simple html/css/js experiment hosted at `paint-ball.pandaslab.dev` that pulls one random live score from the espn api every time you refresh
 - `repo-practice` - a sandbox for repo/git practice
 - `swiftui-learning` - completed projects from Apple's 'Develop in Swift' tutorials
 - `swiftui-sampler` - a rough swiftui audio sampler experiment

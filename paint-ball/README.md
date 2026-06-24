@@ -1,9 +1,9 @@
 paint-ball
 
-tiny sports scoreboard experiment.
+simple as possible html/css/js experiment that pulls one random live score from the ESPN api every time you refresh!
 
-it uses a rough ms paint board as the actual ui and drops random sports scores on top of it.
+practice for fetch/json and responsive ui
 
-mostly just practice for fetch/json, responsive css, team color theming, and normalizing different sports into one goofy scoreboard.
+if no live game shows up, it falls back to demo data
 
-if no live game shows up, it falls back to demo data and keeps pretending anyway.
+it is hosted at paint-ball.pandaslab.dev
