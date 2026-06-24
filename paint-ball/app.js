@@ -1,80 +1,176 @@
-const gameUrls = {
-  nba: "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard",
-  mlb: "https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard",
-  soccer: [
-    {
-      url: "https://site.api.espn.com/apis/site/v2/sports/soccer/usa.1/scoreboard",
-      sport: "soccer",
-      league: "MLS",
-    },
-    {
-      url: "https://site.api.espn.com/apis/site/v2/sports/soccer/usa.nwsl/scoreboard",
-      sport: "soccer",
-      league: "NWSL",
-    },
-    {
-      url: "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard",
-      sport: "soccer",
-      league: "Premier League",
-    },
-  ],
-};
-
-const demoGames = [
+const LEAGUES = [
   {
-    sport: "baseball",
-    league: "made up mlb-ish thing",
-    status: "painted live",
-    clock: "bottom 8th",
-    homeTeam: "toledo mud puddles",
-    awayTeam: "reno dust",
-    homeScore: 6,
-    awayScore: 4,
-    homeColor: "#1d65c1",
-    awayColor: "#f15a29",
-    extraInfo: "windy night in ohio",
-    isDemo: true,
-    state: "in",
-    date: new Date().toISOString(),
+    sport: "basketball",
+    league: "NBA",
+    url: "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard",
   },
   {
     sport: "basketball",
-    league: "weird summer run",
-    status: "final-ish",
-    clock: "paint dried",
-    homeTeam: "saturn hoops",
-    awayTeam: "des moines lasers",
-    homeScore: 112,
-    awayScore: 109,
-    homeColor: "#0f7b6c",
-    awayColor: "#d91e63",
-    extraInfo: "mystery gym somewhere",
-    isDemo: true,
-    state: "post",
-    date: new Date().toISOString(),
+    league: "WNBA",
+    url: "https://site.api.espn.com/apis/site/v2/sports/basketball/wnba/scoreboard",
+  },
+  {
+    sport: "baseball",
+    league: "MLB",
+    url: "https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard",
+  },
+  {
+    sport: "hockey",
+    league: "NHL",
+    url: "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard",
+  },
+  {
+    sport: "football",
+    league: "NFL",
+    url: "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard",
   },
   {
     sport: "soccer",
-    league: "tiny moon cup",
-    status: "74th minute",
-    clock: "2nd half",
-    homeTeam: "club sandwich",
-    awayTeam: "real puddle",
-    homeScore: 2,
-    awayScore: 1,
-    homeColor: "#ffc400",
-    awayColor: "#222222",
-    extraInfo: "very fake but alive",
-    isDemo: true,
-    state: "in",
-    date: new Date().toISOString(),
+    league: "MLS",
+    url: "https://site.api.espn.com/apis/site/v2/sports/soccer/usa.1/scoreboard",
+  },
+  {
+    sport: "soccer",
+    league: "NWSL",
+    url: "https://site.api.espn.com/apis/site/v2/sports/soccer/usa.nwsl/scoreboard",
+  },
+  {
+    sport: "soccer",
+    league: "Premier League",
+    url: "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard",
+    defaultTimeZone: "Europe/London",
+  },
+  {
+    sport: "soccer",
+    league: "La Liga",
+    url: "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/scoreboard",
+    defaultTimeZone: "Europe/Madrid",
+  },
+  {
+    sport: "soccer",
+    league: "Bundesliga",
+    url: "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/scoreboard",
+    defaultTimeZone: "Europe/Berlin",
+  },
+  {
+    sport: "soccer",
+    league: "Serie A",
+    url: "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/scoreboard",
+    defaultTimeZone: "Europe/Rome",
+  },
+  {
+    sport: "soccer",
+    league: "Ligue 1",
+    url: "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/scoreboard",
+    defaultTimeZone: "Europe/Paris",
   },
 ];
 
+const DEFAULT_COLOR = "#111111";
+const MIN_TEXT_SIZE = 12;
+
+const TIME_ZONES_BY_STATE = {
+  al: "America/Chicago",
+  ar: "America/Chicago",
+  az: "America/Phoenix",
+  ca: "America/Los_Angeles",
+  co: "America/Denver",
+  ct: "America/New_York",
+  dc: "America/New_York",
+  de: "America/New_York",
+  ga: "America/New_York",
+  hi: "Pacific/Honolulu",
+  ia: "America/Chicago",
+  id: "America/Denver",
+  il: "America/Chicago",
+  in: "America/Indiana/Indianapolis",
+  ks: "America/Chicago",
+  ky: "America/New_York",
+  la: "America/Chicago",
+  ma: "America/New_York",
+  md: "America/New_York",
+  me: "America/New_York",
+  mi: "America/Detroit",
+  mn: "America/Chicago",
+  mo: "America/Chicago",
+  ms: "America/Chicago",
+  mt: "America/Denver",
+  nc: "America/New_York",
+  nd: "America/Chicago",
+  ne: "America/Chicago",
+  nh: "America/New_York",
+  nj: "America/New_York",
+  nm: "America/Denver",
+  nv: "America/Los_Angeles",
+  ny: "America/New_York",
+  oh: "America/New_York",
+  ok: "America/Chicago",
+  or: "America/Los_Angeles",
+  pa: "America/New_York",
+  ri: "America/New_York",
+  sc: "America/New_York",
+  sd: "America/Chicago",
+  tn: "America/Chicago",
+  tx: "America/Chicago",
+  ut: "America/Denver",
+  va: "America/New_York",
+  vt: "America/New_York",
+  wa: "America/Los_Angeles",
+  wi: "America/Chicago",
+  wv: "America/New_York",
+  wy: "America/Denver",
+  alberta: "America/Edmonton",
+  "british columbia": "America/Vancouver",
+  manitoba: "America/Winnipeg",
+  ontario: "America/Toronto",
+  quebec: "America/Toronto",
+};
+
+const TIME_ZONES_BY_CITY = {
+  calgary: "America/Edmonton",
+  edmonton: "America/Edmonton",
+  indianapolis: "America/Indiana/Indianapolis",
+  miami: "America/New_York",
+  montreal: "America/Toronto",
+  nashville: "America/Chicago",
+  orlando: "America/New_York",
+  ottawa: "America/Toronto",
+  tampa: "America/New_York",
+  toronto: "America/Toronto",
+  vancouver: "America/Vancouver",
+  winnipeg: "America/Winnipeg",
+};
+
+const TIME_ZONES_BY_COUNTRY = {
+  england: "Europe/London",
+  france: "Europe/Paris",
+  germany: "Europe/Berlin",
+  italy: "Europe/Rome",
+  scotland: "Europe/London",
+  spain: "Europe/Madrid",
+  uk: "Europe/London",
+  "united kingdom": "Europe/London",
+};
+
+const EMPTY_GAME = {
+  sport: "x",
+  league: "x",
+  status: "x",
+  clock: "x",
+  homeTeam: "x",
+  awayTeam: "x",
+  homeScore: "x",
+  awayScore: "x",
+  homeColor: DEFAULT_COLOR,
+  awayColor: DEFAULT_COLOR,
+  location: "x",
+  venueTimeZone: null,
+  state: "empty",
+  date: null,
+};
+
 const state = {
-  games: [],
-  currentGame: null,
-  clockTimer: null,
+  currentGame: EMPTY_GAME,
 };
 
 const elements = {
@@ -88,139 +184,114 @@ const elements = {
   metaText: document.getElementById("metaText"),
 };
 
-// data stuff
+async function getAllGames() {
+  const results = await Promise.allSettled(LEAGUES.map((league) => getLeagueGames(league)));
 
-async function getLiveGames() {
-  const results = await Promise.allSettled([
-    getNbaGames(),
-    getMlbGames(),
-    getSoccerGames(),
-  ]);
-
-  const games = results.flatMap((result) => {
-    if (result.status === "fulfilled") {
-      return result.value;
-    }
-
-    return [];
-  });
-
-  return games.filter(isRelevantGame);
+  return results
+    .flatMap((result) => (result.status === "fulfilled" ? result.value : []))
+    .filter(isDisplayableGame);
 }
 
-function getDemoGames() {
-  return demoGames.map((game) => ({ ...game }));
-}
-
-async function getNbaGames() {
-  return getEspnLeagueGames(gameUrls.nba, { sport: "basketball", league: "NBA" });
-}
-
-async function getMlbGames() {
-  return getEspnLeagueGames(gameUrls.mlb, { sport: "baseball", league: "MLB" });
-}
-
-async function getSoccerGames() {
-  const results = await Promise.allSettled(
-    gameUrls.soccer.map((item) => getEspnLeagueGames(item.url, item))
-  );
-
-  return results.flatMap((result) => {
-    if (result.status === "fulfilled") {
-      return result.value;
-    }
-
-    return [];
-  });
-}
-
-async function getEspnLeagueGames(url, info) {
-  const response = await fetch(url);
+async function getLeagueGames(league) {
+  const response = await fetch(league.url);
 
   if (!response.ok) {
-    throw new Error(`could not load ${info.league}`);
+    throw new Error(`could not load ${league.league}`);
   }
 
   const data = await response.json();
   const events = data.events || [];
 
-  return events
-    .map((event) => normalizeGame(event, info))
-    .filter(Boolean);
+  return events.map((event) => normalizeGame(event, league)).filter(Boolean);
 }
 
-function normalizeGame(event, info) {
-  const competition = event.competitions && event.competitions[0];
+function normalizeGame(event, league) {
+  const competition = event.competitions?.[0];
 
   if (!competition) {
     return null;
   }
 
-  const home = competition.competitors.find((team) => team.homeAway === "home");
-  const away = competition.competitors.find((team) => team.homeAway === "away");
+  const competitors = competition.competitors || [];
+  const home = competitors.find((team) => team.homeAway === "home");
+  const away = competitors.find((team) => team.homeAway === "away");
 
   if (!home || !away) {
     return null;
   }
 
-  const statusType = competition.status?.type?.state || "pre";
-  const detail = competition.status?.type?.shortDetail || competition.status?.type?.detail || "";
-  const note = competition.notes?.[0]?.headline || "";
-  const venue = competition.venue?.address?.city || competition.venue?.fullName || "";
+  const status = competition.status || {};
+  const statusType = status.type || {};
 
   return {
-    sport: info.sport,
-    league: info.league,
-    status: cleanStatusText(competition.status?.type?.description || "scheduled", detail),
-    clock: cleanClockText(detail, competition.status?.displayClock),
-    homeTeam: home.team.shortDisplayName || home.team.displayName || home.team.name,
-    awayTeam: away.team.shortDisplayName || away.team.displayName || away.team.name,
-    homeScore: Number(home.score || 0),
-    awayScore: Number(away.score || 0),
-    homeColor: makeColor(home.team.color, home.team.alternateColor),
-    awayColor: makeColor(away.team.color, away.team.alternateColor),
-    extraInfo: note || venue || event.shortName || "espn scoreboard",
-    state: statusType,
-    date: competition.date || event.date,
-    isDemo: false,
+    sport: league.sport,
+    league: league.league,
+    status: cleanStatusText(statusType.description),
+    clock: cleanClockText(status),
+    homeTeam: getTeamName(home),
+    awayTeam: getTeamName(away),
+    homeScore: getScore(home.score),
+    awayScore: getScore(away.score),
+    homeColor: makeColor(home.team?.color, home.team?.alternateColor),
+    awayColor: makeColor(away.team?.color, away.team?.alternateColor),
+    location: buildLocationLabel(competition.venue),
+    venueTimeZone: resolveVenueTimeZone(competition.venue, league.defaultTimeZone),
+    state: statusType.state || "pre",
+    date: competition.date || event.date || null,
   };
 }
 
-function pickRandomGame(games) {
-  const liveGames = games.filter((game) => game.state === "in");
-  const recentGames = games.filter((game) => game.state === "post");
-  const soonGames = games.filter((game) => game.state === "pre");
-  const bucket = liveGames.length ? liveGames : recentGames.length ? recentGames : soonGames;
-
-  return bucket[Math.floor(Math.random() * bucket.length)];
+function getTeamName(team) {
+  return team.team?.shortDisplayName || team.team?.displayName || team.team?.name || "x";
 }
 
-function isRelevantGame(game) {
+function getScore(score) {
+  const value = Number(score);
+  return Number.isFinite(value) ? value : 0;
+}
+
+function isDisplayableGame(game) {
   if (!game.date) {
     return false;
   }
 
   const gameTime = new Date(game.date).getTime();
-  const now = Date.now();
-  const hoursAway = (gameTime - now) / (1000 * 60 * 60);
+
+  if (Number.isNaN(gameTime)) {
+    return false;
+  }
 
   if (game.state === "in") {
     return true;
   }
 
   if (game.state === "post") {
-    return hoursAway > -30;
-  }
-
-  if (game.state === "pre") {
-    return hoursAway > -2 && hoursAway < 12;
+    return true;
   }
 
   return false;
 }
 
-function cleanStatusText(description, detail) {
-  const simple = description.toLowerCase();
+function pickDisplayGame(games) {
+  const liveGames = games.filter((game) => game.state === "in");
+
+  if (liveGames.length) {
+    return liveGames[Math.floor(Math.random() * liveGames.length)];
+  }
+
+  const finishedGames = games
+    .filter((game) => game.state === "post")
+    .sort((left, right) => new Date(right.date) - new Date(left.date));
+
+  if (finishedGames.length) {
+    return finishedGames[0];
+  }
+
+  return EMPTY_GAME;
+}
+
+function cleanStatusText(description) {
+  const simple = (description || "").toLowerCase();
 
   if (simple === "in progress" || simple === "status in progress") {
     return "live";
@@ -230,105 +301,98 @@ function cleanStatusText(description, detail) {
     return "final";
   }
 
-  if (simple === "scheduled") {
-    return "soon";
+  if (simple) {
+    return simple;
   }
 
-  return detail ? detail.toLowerCase() : simple;
+  return "x";
 }
 
-function cleanClockText(detail, displayClock) {
-  if (detail) {
-    return detail.toLowerCase();
+function cleanClockText(status) {
+  const detail = status.type?.shortDetail || status.type?.detail || status.displayClock || "";
+  return detail ? detail.toLowerCase() : "x";
+}
+
+function buildLocationLabel(venue) {
+  const city = venue?.address?.city;
+  const region = venue?.address?.state || venue?.address?.country;
+
+  if (city && region) {
+    return `${city}, ${region}`;
   }
 
-  if (displayClock) {
-    return displayClock.toLowerCase();
+  if (city) {
+    return city;
   }
 
-  return "waiting";
+  if (venue?.fullName) {
+    return venue.fullName;
+  }
+
+  return "x";
+}
+
+function resolveVenueTimeZone(venue, defaultTimeZone) {
+  const cityKey = normalizeKey(venue?.address?.city);
+  const stateKey = normalizeKey(venue?.address?.state);
+  const countryKey = normalizeKey(venue?.address?.country);
+
+  if (cityKey && TIME_ZONES_BY_CITY[cityKey]) {
+    return TIME_ZONES_BY_CITY[cityKey];
+  }
+
+  if (stateKey && TIME_ZONES_BY_STATE[stateKey]) {
+    return TIME_ZONES_BY_STATE[stateKey];
+  }
+
+  if (countryKey && TIME_ZONES_BY_COUNTRY[countryKey]) {
+    return TIME_ZONES_BY_COUNTRY[countryKey];
+  }
+
+  return defaultTimeZone || null;
+}
+
+function normalizeKey(value) {
+  return String(value || "").trim().toLowerCase();
 }
 
 function makeColor(mainColor, backupColor) {
   const color = mainColor || backupColor;
 
   if (!color) {
-    return "#111111";
+    return DEFAULT_COLOR;
   }
 
   return `#${color.replace("#", "")}`;
 }
 
-// rendering stuff
-
-function numberToWords(number) {
-  const ones = [
-    "zero",
-    "one",
-    "two",
-    "three",
-    "four",
-    "five",
-    "six",
-    "seven",
-    "eight",
-    "nine",
-    "ten",
-    "eleven",
-    "twelve",
-    "thirteen",
-    "fourteen",
-    "fifteen",
-    "sixteen",
-    "seventeen",
-    "eighteen",
-    "nineteen",
-  ];
-
-  const tens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
-
-  if (number < 20) {
-    return ones[number];
-  }
-
-  if (number < 100) {
-    const tenWord = tens[Math.floor(number / 10)];
-    const rest = number % 10;
-    return rest ? `${tenWord} ${ones[rest]}` : tenWord;
-  }
-
-  if (number < 1000) {
-    const hundredWord = `${ones[Math.floor(number / 100)]} hundred`;
-    const rest = number % 100;
-    return rest ? `${hundredWord} ${numberToWords(rest)}` : hundredWord;
-  }
-
-  return String(number);
-}
-
 function renderScoreboard(game) {
   state.currentGame = game;
 
-  const awayScoreText = formatScore(game.awayScore);
-  const homeScoreText = formatScore(game.homeScore);
-  const sportLabel = `${game.sport} / ${game.league}`;
-
   elements.awayTeam.textContent = game.awayTeam;
   elements.homeTeam.textContent = game.homeTeam;
-  elements.awayScore.textContent = awayScoreText;
-  elements.homeScore.textContent = homeScoreText;
+  elements.awayScore.textContent = formatScore(game.awayScore);
+  elements.homeScore.textContent = formatScore(game.homeScore);
   elements.statusText.textContent = game.status;
   elements.gameClock.textContent = game.clock;
-  elements.sportText.textContent = sportLabel;
+  elements.sportText.textContent = `${game.sport} / ${game.league}`;
 
   applyTeamColors(game);
   updateClock();
   fitTextToBox();
 }
 
+function formatScore(score) {
+  if (typeof score !== "number" || Number.isNaN(score)) {
+    return "x";
+  }
+
+  return String(score);
+}
+
 function applyTeamColors(game) {
-  const awayColor = game.awayColor || "#111111";
-  const homeColor = game.homeColor || "#111111";
+  const awayColor = game.awayColor || DEFAULT_COLOR;
+  const homeColor = game.homeColor || DEFAULT_COLOR;
 
   document.documentElement.style.setProperty("--away-color", awayColor);
   document.documentElement.style.setProperty("--home-color", homeColor);
@@ -337,18 +401,29 @@ function applyTeamColors(game) {
 }
 
 function updateClock() {
-  const now = new Date();
-  const shortTime = new Intl.DateTimeFormat([], {
-    hour: "numeric",
-    minute: "2-digit",
-  }).format(now);
+  elements.metaText.textContent = formatMetaLine(state.currentGame);
+}
 
-  if (!state.currentGame) {
-    elements.metaText.textContent = shortTime;
-    return;
+function formatMetaLine(game) {
+  const venueTime = formatVenueTime(game.venueTimeZone);
+  return [game.status || "x", game.location || "x", venueTime].join(" / ");
+}
+
+function formatVenueTime(timeZone) {
+  if (!timeZone) {
+    return "x";
   }
 
-  elements.metaText.textContent = formatMetaLine(state.currentGame, shortTime);
+  try {
+    return new Intl.DateTimeFormat([], {
+      hour: "numeric",
+      minute: "2-digit",
+      timeZone,
+      timeZoneName: "short",
+    }).format(new Date());
+  } catch {
+    return "x";
+  }
 }
 
 function fitTextToBox() {
@@ -360,37 +435,11 @@ function fitTextToBox() {
 
     box.style.fontSize = `${size}px`;
 
-    while ((box.scrollWidth > box.clientWidth || box.scrollHeight > box.clientHeight) && size > 12) {
+    while ((box.scrollWidth > box.clientWidth || box.scrollHeight > box.clientHeight) && size > MIN_TEXT_SIZE) {
       size -= 1;
       box.style.fontSize = `${size}px`;
     }
   });
-}
-
-function formatScore(score) {
-  const wordScore = numberToWords(score);
-
-  if (wordScore.length <= 19) {
-    return wordScore;
-  }
-
-  return String(score);
-}
-
-function formatMetaLine(game, timeText) {
-  const parts = [];
-
-  if (game.status) {
-    parts.push(game.status);
-  }
-
-  if (game.extraInfo) {
-    parts.push(game.extraInfo.toLowerCase());
-  }
-
-  parts.push(timeText.toLowerCase());
-
-  return parts.join(" / ");
 }
 
 function getReadableTextColor(color) {
@@ -405,20 +454,15 @@ function getReadableTextColor(color) {
 
 async function showAnotherGame() {
   try {
-    const liveGames = await getLiveGames();
-    const games = liveGames.length ? liveGames : getDemoGames();
-    const game = pickRandomGame(games);
-
-    state.games = games;
-    renderScoreboard(game);
-  } catch (error) {
-    state.games = getDemoGames();
-    renderScoreboard(pickRandomGame(state.games));
+    const games = await getAllGames();
+    renderScoreboard(pickDisplayGame(games));
+  } catch {
+    renderScoreboard(EMPTY_GAME);
   }
 }
 
 window.addEventListener("resize", fitTextToBox);
 
-updateClock();
-state.clockTimer = window.setInterval(updateClock, 1000);
+renderScoreboard(EMPTY_GAME);
+window.setInterval(updateClock, 1000);
 showAnotherGame();
