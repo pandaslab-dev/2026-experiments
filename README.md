@@ -13,3 +13,7 @@ some of it is tiny/messy and some of it might turn into a real project later - m
 - `swiftui-sampler` - a rough swiftui audio sampler experiment
 
 if one of these grows up later, it can always become its own repo then.
+
+<p align="center">
+  <img src="paint-ball/paint-ball-screenshot.png" alt="paint-ball screenshot" width="360" />
+</p>
