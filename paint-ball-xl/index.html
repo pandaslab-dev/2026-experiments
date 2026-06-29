@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>paint-ball-xl</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="page">
+      <div class="board-wrap">
+        <section class="board" id="board">
+          <div class="scribble-layer" aria-hidden="true">
+            <div class="scribble-side away scribble-base"></div>
+            <div class="scribble-side home scribble-base"></div>
+          </div>
+
+          <img
+            class="board-art"
+            src="boardxl-ui-v1.png"
+            alt="hand-drawn paint-ball xl scoreboard art"
+          />
+
+          <div class="board-text">
+            <div class="slot away-team fit-text" id="awayTeam" data-max-size="42">
+              x
+            </div>
+            <div class="slot home-team fit-text" id="homeTeam" data-max-size="42">
+              x
+            </div>
+
+            <div class="slot away-score fit-text score-text" id="awayScore" data-max-size="74">
+              x
+            </div>
+            <div class="slot home-score fit-text score-text" id="homeScore" data-max-size="74">
+              x
+            </div>
+
+            <div class="slot status-box fit-text" id="statusText" data-max-size="32">
+              x
+            </div>
+            <div class="slot clock-box fit-text" id="gameClock" data-max-size="32">
+              x
+            </div>
+
+            <div class="slot sport-bar fit-text" id="sportText" data-max-size="34">
+              x / x
+            </div>
+            <div class="slot time-bar fit-text" id="metaText" data-max-size="30">
+              x / x / x
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

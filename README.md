@@ -8,6 +8,7 @@ some of it is tiny/messy and some of it might turn into a real project later - m
 - `esp32-rage-machine` - an esp32 ble midi controller experiment
 - `pandadraw` - a tiny tkinter paint app
 - `paint-ball` - a simple html/css/js experiment hosted at `paint-ball.pandaslab.dev` that pulls one random live score from the espn api every time you refresh
+- `paint-ball-xl` - a follow-up html/css/js scoreboard experiment that pulls from a wider mix of live score feeds and keeps the same hand-drawn vibe
 - `repo-practice` - a sandbox for repo/git practice
 - `swiftui-learning` - completed projects from Apple's 'Develop in Swift' tutorials
 - `swiftui-sampler` - a rough swiftui audio sampler experiment
